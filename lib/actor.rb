@@ -11,19 +11,18 @@ class Actor < ActiveRecord::Base
     actor[0].multiple_matches_sort(actor)
   end
 
-
-def multiple_matches_sort(array)
-  if array.length > 1
-    # binding.pry
-    puts "There are #{array.length} actors matching that name."
-    puts "Please type the number corresponding to the correct actor you are looking for"
-    puts array.map{|array_i| "#{array.index(array_i)+1}. name: #{array_i.name} birthday: #{array_i.birthday} hometown: #{array_i.hometown}"}
-    input = gets_user_input.to_i
-    array[input-1]
-  else
-    array[0]
+  def multiple_matches_sort(array)
+    if array.length > 1
+      # binding.pry
+      puts "There are #{array.length} actors matching that name."
+      puts "Please type the number corresponding to the correct actor you are looking for"
+      puts array.map{|array_i| "#{array.index(array_i)+1}. name: #{array_i.name} birthday: #{array_i.birthday} hometown: #{array_i.hometown}"}
+      input = gets_user_input.to_i
+      array[input-1]
+    else
+      array[0]
+    end
   end
-end
 
   def all_actors_most_busy_year
     busy_hash = {}
@@ -49,7 +48,6 @@ end
     #finds a movie instance by key basedon input movie not case sensitive
     Actor.find(actor_select.keys)[0]
   end
-
   def self.actor_id_selector(actor)
     self.select_downcase_actors(actor).id
   end
@@ -58,17 +56,19 @@ end
     year = {}
     movies.map do |movie|
       if year[movie.year] == nil
-        # binding.pry
         year[movie.year] = 1
       else
-        # binding.pry
         year[movie.year] += 1
       end
     end
     sorted = year.sort_by{|year, count| count}[-1][0]
   end
 
-  def partial_actor_search
+  def self.actors_with_in_mulitple_movies
+    self.all.select {|actor| actor.movies.length > 1}.map{|actor| actor.name}
   end
+
+  def partial_actor_search
     #find an actor with partial string
+  end
 end #End of Actor Class

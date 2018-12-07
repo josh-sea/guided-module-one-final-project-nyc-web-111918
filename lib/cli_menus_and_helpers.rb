@@ -40,10 +40,13 @@ def menu
   puts "8.   Find an actors birthday!"
   puts "9.   Find an actors info"
   puts "10.  Find a movies info"
+  puts "11.  Find all the directors"
+  puts "12.  Find all the movies a director has made"
+  puts "13.  Find all the actors a director has worked with"
   puts "Type settings to make changes"
   puts "Type exit to exit at anytime"
-  puts "~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~"
   puts ""
+  puts "~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~"
 end
 #########################
 def settings_menu

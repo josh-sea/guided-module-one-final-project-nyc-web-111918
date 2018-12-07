@@ -49,24 +49,31 @@ def main_menu
   when "3" #Find a Movie release year
     puts "Please type the movie you are looking for."
     puts ""
-    puts "Movie was released:"
-    puts ""
-    puts Movie.movie_release_year(gets_user_input)
+    input = gets_user_input
+    mov = Movie.inst_method(input)
+    puts "The movie was released in:"
+    puts mov.year
     sleep 0.5
     follow_up
   when "4" #Find all the actors with the same hometown in a movie
     puts "Please type the movie you are looking for."
     puts ""
     input = gets_user_input
-    puts Movie.find(Movie.movie_id_selector(input)).actors_with_same_hometown.map{|hometown, names| "#{hometown}:\n#{names.join("\n")}\n\n"}
-    sleep 0.5
-    follow_up
+    mov = Movie.inst_method(input)
+    if mov.actors.length == 0
+      puts "This film has no known actors! If you know one you can add them in settings."
+      follow_up
+    else
+      puts mov.actors_with_same_hometown.map{|hometown, names| "#{hometown}:\n#{names.join("\n")}\n\n"}
+      sleep 0.5
+      follow_up
+    end
   when "5" #Find the busiest year for an actor
     puts "Please type the actor you are looking for."
     puts ""
     input = gets_user_input
-    act = Actor.inst_method(input).movies
-    if act.length == 0
+    act = Actor.inst_method(input)
+    if act.movies.length == 0
       puts "actor has no movies"
       follow_up
     else
@@ -92,15 +99,23 @@ def main_menu
     puts "Please type the movie you are looking for."
     puts ""
     input = gets_user_input
-    puts Movie.find(Movie.movie_id_selector(input)).actors.map {|actor| actor.name}
-    sleep 0.5
-    follow_up
+    mov = Movie.inst_method(input)
+    if mov.actors.length == 0
+      puts "This film has no known actors! If you know one you can add them in settings."
+      follow_up
+    else
+      puts mov.actors.map {|actor| actor.name}
+      sleep 0.5
+      follow_up
+    end
   when "8" #Find an actors birthday!
     puts "Please type the actor you are looking for."
     puts ""
     input = gets_user_input
-    puts Actor.find(Actor.actor_id_selector(input)).birthday
-    puts "Happy Birthday #{Actor.find(Actor.actor_id_selector(input)).name}!!!"
+    act = Actor.inst_method(input)
+    # puts Actor.find(Actor.actor_id_selector(input)).birthday
+    puts act.birthday
+    puts "Happy Birthday #{act.name}!!!"
     sleep 0.5
     follow_up
   when "9" #Find an actors info
@@ -108,25 +123,30 @@ def main_menu
     puts ""
     input = gets_user_input
     # ASSIGN ID TO A NEW VARIABLE
+    act = Actor.inst_method(input)
     puts "Their name is:"
-    puts Actor.find(Actor.actor_id_selector(input)).name
+    puts act.name
     sleep 0.5
     puts "Their birthday is:"
-    puts Actor.find(Actor.actor_id_selector(input)).birthday
+    puts act.birthday
     sleep 0.5
     puts "Their hometown is:"
-    puts Actor.find(Actor.actor_id_selector(input)).hometown
+    puts act.hometown
     sleep 0.5
     follow_up
   when "10" #Find a movies info
     puts "Please type the movie you are looking for."
     puts ""
     input = gets_user_input
+    mov = Movie.inst_method(input)
     puts "Its title is:"
-    puts Movie.find(Movie.movie_id_selector(input)).title
+    puts mov.title
     sleep 0.5
     puts "It was released in:"
-    puts Movie.find(Movie.movie_id_selector(input)).year
+    puts mov.year
+    sleep 0.5
+    puts "Its director is:"
+    puts mov.director.name
     sleep 0.5
     follow_up
   when "11" #Find all directors
@@ -135,14 +155,25 @@ def main_menu
   when "12" #Find all the movies a director has made
     puts "what is the director's name?"
     input = gets_user_input
-    dm = Director.inst_method(input).movies
-    puts dm.map{|movie| movie.title}
-    follow_up
+    dm = Director.inst_method(input)
+    if dm.movies.length == 0
+      puts "This director has no known movies yet, you can add them in settings if you would like to!"
+      follow_up
+    else
+      puts dm.movies.map{|movie| movie.title}
+      follow_up
+    end
   when "13" #Find all the actors a director has worked with
     puts "what is the director's name?"
     input = gets_user_input
-    puts Director.inst_method(input).actors.map{|actor| actor.name}
-    follow_up
+    dm = Director.inst_method(input)
+    if dm.movies.length == 0
+      puts "This director has no known movies yet, so, no actors; you can add them in settings if you would like to!"
+      follow_up
+    else
+      puts dm.actors.map{|act| act.name}
+      follow_up
+    end
   when "settings" #Type settings to make changes
     settings_menu
   when "exit" #Type exit to exit at anytime

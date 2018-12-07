@@ -13,39 +13,43 @@ def settings_menu_case_3
     elsif input_back == "name"
       puts "What is the old name you want to correct?"
       old_name = gets_user_input
+      old = Actor.inst_method(old_name)
       sleep 0.5
       puts "What is the new name you would like to correct it to?"
       new_name = gets_user_input
-      Actor.find(Actor.actor_id_selector(old_name)).update(name: new_name)
+      old.update(name: new_name)
+      new = Actor.inst_method(new_name)
       puts "All done! Let me show you the new information."
       sleep 0.5
       puts "Their name is:"
-      puts Actor.find(Actor.actor_id_selector(new_name)).name
+      puts new.name
       sleep 0.5
       puts "Their birthday is:"
-      puts Actor.find(Actor.actor_id_selector(new_name)).birthday
+      puts new.birthday
       sleep 0.5
       puts "Their hometown is:"
-      puts Actor.find(Actor.actor_id_selector(new_name)).hometown
+      puts new.hometown
       sleep 0.5
       follow_up
     elsif input_back == "birthday"
       puts "What is the actor's name whose birthday your want to update?"
       old_name = gets_user_input
+      old = Actor.inst_method(old_name)
       sleep 0.5
       puts "What is the new birthday you would like to correct it to?"
-      new_birthday = gets_user_input
-      Actor.find(Actor.actor_id_selector(old_name)).update(birthday: new_birthday)
+      puts "PLEASE USE YYYY-MM-DD"
+      new_bday = gets_user_input
+      old.update(birthday: new_bday)
       puts "All done! Let me show you the new information."
       sleep 0.5
       puts "Their name is:"
-      puts Actor.find(Actor.actor_id_selector(old_name)).name
+      puts old.name
       sleep 0.5
       puts "Their birthday is:"
-      puts Actor.find(Actor.actor_id_selector(old_name)).birthday
+      puts old.birthday
       sleep 0.5
       puts "Their hometown is:"
-      puts Actor.find(Actor.actor_id_selector(old_name)).hometown
+      puts old.hometown
       sleep 0.5
       follow_up
     elsif input_back == "hometown"
@@ -122,5 +126,4 @@ def settings_menu_case_3
     puts "You did not select an option, type 1 for actor or 2 for movie"
     settings_menu
   end
-  follow_up
 end
